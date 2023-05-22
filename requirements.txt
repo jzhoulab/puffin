@@ -1,0 +1,6 @@
+numpy
+pandas
+torch
+docopt
+selene_sdk
+torch_fftconv
