@@ -79,8 +79,8 @@ The script outputs a csv file.  The csv files contains the following rows:
 - Sum of total effects: Sum of all sequence pattern effects (Long Inr +/-, initiator, and trinucleotide effects were centered to zero mean).
 - Prediction: Predicted transcription initiation in log scale, which can be interpreted as ln(count-scale signal+1) scores. Note that Puffin focuses on predicting the shape rather than the scale of the signal, and the scale of transcription depends on also sequence beyond the promoter. Puffin-D offers better predictions of signals if prediction is your primary need.
 - Basepair contribution score to transcription initiation: represents the amount of contribution to transcription initiation from each basepair.
-- Basepair contribution score to transcription initiation per motif: represents the amount of contribution to transcription initiation from each basepair, decomposed to each motif type.
-- Basepair contribution score to motif activation: represents the amount of contribution to motif activation from each basepair, which is computed using only the first layer of Puffin.
+- Basepair contribution score to transcription initiation per motif: 20 rows, represents the amount of contribution to transcription initiation from each basepair, decomposed to each motif type.
+- Basepair contribution score to motif activation: 20 rows, represents the amount of contribution to motif activation from each basepair, which is computed using only the first layer of Puffin.
 
 #### Optional arguments:
 
