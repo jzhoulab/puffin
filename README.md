@@ -171,5 +171,5 @@ prediction = puffin_d.predict(sequence)
 
 #### Questions and feedbacks
 
-Thank you for using Puffin. If you have any questions or feedback, you can let us know at puffin-user@googlegroups.com. If you found a bug, you can file a Github issue with details for reproducing the bug. Puffin is completely free for any non-commercial and academic use, and please contact us for commercial applications.
+Thank you for using Puffin. If you have any questions or feedback, you can let us know at the [discussions tab] (https://github.com/jzhoulab/puffin/discussions). If you found a bug, you can file a Github issue with details for reproducing the bug. Puffin is completely free for any non-commercial and academic use, and please contact us for commercial applications.
 
