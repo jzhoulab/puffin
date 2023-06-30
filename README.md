@@ -1,9 +1,14 @@
-# Puffin
 
+# Puffin
 This repository contains code for Puffin and Puffin-D. The associated preprint **“Sequence basis of transcription initiation in human genome”** will be available soon. Puffin is an interpretation-focused sequence model for transcription initiation in the human genome which is also applicable to other mammalian species. 
-Puffin can *predict basepair-resolution transcription initiation signals* using only genomic sequence as input,  and more importantly *analyze the sequence basis of any transcription start site (TSS) at motif and basepair levels*. For the prediction-focused deep learning model Puffin-D, scroll to [here](https://github.com/jzhoulab/puffin/tree/main#puffin-d). To reproduce the analyses in our manuscript and training code, please visit our [manuscript repo](https://github.com/jzhoulab/puffin_manuscript).
+Puffin can *predict basepair-resolution transcription initiation signals* using only genomic sequence as input,  and more importantly *analyze the sequence basis of any transcription start site (TSS) at motif and basepair levels*. For the prediction-focused deep learning model Puffin-D, scroll to [here](https://github.com/jzhoulab/puffin/tree/main#puffin-d). For reproducing the analyses in our manuscript and training code, please visit our [manuscript repo](https://github.com/jzhoulab/puffin_manuscript).
 
 For most use cases, we highly recommend our user-friendly web server that runs Puffin in your browser with interactive visualization [tss.zhoulab.io](https://tss.zhoulab.io).
+
+<p align="center">
+  <img  height="250" src="https://media.discordapp.net/attachments/1013673476789387274/1124158519466278953/puffin_logo.png">
+</p>
+
 
 ## What can I use Puffin for?
 - Analyze sequence and motif contribution to transcription initiation for any sequence.
