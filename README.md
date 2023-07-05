@@ -106,7 +106,7 @@ python puffin.py coord --target PRO_CAP chr7:5529775-5531425-
 If you want to use Puffin in your Python code, you can import the Puffin model by 
 
 ```
-sys,path.append(YOUR_DIRECTORY_FOR PUFFIN)
+sys.path.append(YOUR_DIRECTORY_FOR PUFFIN)
 import puffin
 puffin = Puffin()
 ```
