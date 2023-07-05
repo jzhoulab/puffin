@@ -107,7 +107,7 @@ If you want to use Puffin in your Python code, you can import the Puffin model b
 
 ```
 sys.path.append(YOUR_DIRECTORY_FOR PUFFIN)
-import puffin
+from puffin import *
 puffin = Puffin()
 ```
 
@@ -162,7 +162,7 @@ python puffin_D.py coord chr7:5530600-
 For API usage, import Puffin-D model
 ```
 sys.path.append(YOUR_DIRECTORY_FOR PUFFIN-D)
-import puffin_D
+from puffin_D import * 
 puffin_D = Puffin_D()
 ```
 To run the model with cuda use
