@@ -171,7 +171,7 @@ puffin_D = Puffin_D(use_cuda=True)
 ```
 To run the model prediciton use the following command, where input sequence length is 100Kbp
 ```
-prediction = puffin_d.predict(sequence)
+prediction = puffin_D.predict(sequence)
 ```
 
 #### Questions and feedbacks
