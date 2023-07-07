@@ -23,13 +23,10 @@ class ConvBlock(nn.Module):
         return x + self.conv(x)
 
 
-class PuffinD(nn.Module):
-    def __init__(self):
-        """
-        Parameters
-        ----------
-        """
-        super(PuffinD, self).__init__()
+class Puffin_D(nn.Module):
+    def __init__(self, use_cuda=False):
+        
+        super(Puffin_D, self).__init__()
         self.uplblocks = nn.ModuleList(
             [
                 nn.Sequential(
@@ -263,7 +260,25 @@ class PuffinD(nn.Module):
             nn.Softplus(),
         )
 
-    def forward(self, x, full_length_output=False):
+        self.use_cuda = use_cuda
+        model_path = "./resources/puffin_D.pth"
+        if self.use_cuda:
+            self.load_state_dict(torch.load(model_path))
+        else:
+            self.load_state_dict(
+                torch.load(model_path, map_location=torch.device("cpu")), strict=False
+            )
+
+        self.eval()
+        if self.use_cuda:
+            self.cuda()
+        else:
+            self.cpu()
+
+
+
+
+    def forward(self, x):
         """Forward propagation of a batch."""
         out = x
         encodings = []
@@ -293,6 +308,7 @@ class PuffinD(nn.Module):
             encodings3.append(out)
 
         for enc, lconv, conv in zip(
+
             reversed(encodings3[:-1]), self.downlblocks2, self.downblocks2
         ):
             lout = lconv(out)
@@ -300,29 +316,8 @@ class PuffinD(nn.Module):
             out = enc + out
 
         out = self.final(out)
-        if full_length_output:
-            return out
-        else:
-            return out
-
-
-class Puffin_D:
-    def __init__(self, use_cuda=False):
-        self.use_cuda = use_cuda
-        model_path = "./resources/puffin_D.pth"
-        self.bignet = PuffinD()
-        if self.use_cuda:
-            self.bignet.load_state_dict(torch.load(model_path))
-        else:
-            self.bignet.load_state_dict(
-                torch.load(model_path, map_location=torch.device("cpu")), strict=False
-            )
-
-        self.bignet.eval()
-        if self.use_cuda:
-            self.bignet.cuda()
-        else:
-            self.bignet.cpu()
+        
+        return out
 
     def predict(self, seq):
         seq = sequences.sequence_to_encoding(
@@ -343,14 +338,20 @@ class Puffin_D:
         if self.use_cuda:
             seqt = torch.FloatTensor(seq[None, :, :]).transpose(1, 2).cuda()
             with torch.no_grad():
-                pred = self.bignet(seqt)
+                pred = self(seqt)
                 pred = pred.cpu().numpy()
         else:
             seqt = torch.FloatTensor(seq[None, :, :]).transpose(1, 2)
             with torch.no_grad():
-                pred = self.bignet(seqt)
+                pred = self(seqt)
                 pred = pred.numpy()
         return pred
+
+        
+
+            
+
+
 
 
 if __name__ == "__main__":
@@ -377,6 +378,7 @@ if __name__ == "__main__":
 
     genome_path = "./resources/hg38.fa"
     genome = selene_sdk.sequences.Genome(genome_path)
+    
     if arguments["--use_cuda"]:
         use_cuda = True
     else:
