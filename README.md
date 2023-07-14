@@ -155,7 +155,7 @@ Directly specifying a genome region in the format of chr:sequence center positio
 python puffin_D.py coord chr7:5530600-
 ```
 #### Optional arguments:
---cuda Default is using CPU. If specified, use cuda (requires GPU supporting CUDA).
+--use_cuda Default is using CPU. If specified, use cuda (requires GPU supporting CUDA).
 
 #### API Usage
 
