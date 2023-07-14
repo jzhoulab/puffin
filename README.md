@@ -129,7 +129,7 @@ returns a prediction-only DataFrame
 
 
 # Puffin-D
-Puffin-D is a deep learning model that predicts tanscription inititation signal for 100Kbp genome sequence. Command line interface outputs a numpy array with prediciton for each target in following order: FANTOM_CAGE (+ strand), ENCODE_CAGE (+ strand), ENCODE_RAMPAGE (+ strand), GRO_CAP (+ strand), PRO_CAP (+ strand), PRO_CAP (- strand), GRO_CAP (- strand), ENCODE_RAMPAGE (- strand), ENCODE_CAGE (- strand), FANTOM_CAGE (- strand).
+Puffin-D is a deep learning model that predicts tanscription inititation signal for 100Kbp genome sequence. Command line interface outputs a numpy array with prediciton for each target in following order: FANTOM_CAGE (forward strand), ENCODE_CAGE (forward strand), ENCODE_RAMPAGE (forward strand), GRO_CAP (forward strand), PRO_CAP (forward strand), PRO_CAP (reverse strand), GRO_CAP (reverse strand), ENCODE_RAMPAGE (reverse strand), ENCODE_CAGE (reverse strand), FANTOM_CAGE (reverse strand).
 
 #### Puffin-D command line interface (CLI) Usage
 Download Puffin-D model file
