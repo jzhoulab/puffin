@@ -25,7 +25,7 @@ class ConvBlock(nn.Module):
 
 class Puffin_D(nn.Module):
     def __init__(self, use_cuda=False):
-        
+
         super(Puffin_D, self).__init__()
         self.uplblocks = nn.ModuleList(
             [
@@ -275,9 +275,6 @@ class Puffin_D(nn.Module):
         else:
             self.cpu()
 
-
-
-
     def forward(self, x):
         """Forward propagation of a batch."""
         out = x
@@ -308,7 +305,6 @@ class Puffin_D(nn.Module):
             encodings3.append(out)
 
         for enc, lconv, conv in zip(
-
             reversed(encodings3[:-1]), self.downlblocks2, self.downblocks2
         ):
             lout = lconv(out)
@@ -316,7 +312,7 @@ class Puffin_D(nn.Module):
             out = enc + out
 
         out = self.final(out)
-        
+
         return out
 
     def predict(self, seq):
@@ -347,12 +343,6 @@ class Puffin_D(nn.Module):
                 pred = pred.numpy()
         return pred
 
-        
-
-            
-
-
-
 
 if __name__ == "__main__":
     import sys
@@ -378,7 +368,7 @@ if __name__ == "__main__":
 
     genome_path = "./resources/hg38.fa"
     genome = selene_sdk.sequences.Genome(genome_path)
-    
+
     if arguments["--use_cuda"]:
         use_cuda = True
     else:
@@ -393,7 +383,6 @@ if __name__ == "__main__":
         strand = arguments["<coordinate>"][-1]
         start = int(poss[:-1]) - 50000
         end = int(poss[:-1]) + 50000
-        print(start, end)
 
         if strand == "-":
             offset = 1
@@ -428,8 +417,27 @@ if __name__ == "__main__":
                     seq_list.append(seq)
 
                     for s in [
-                        "#", "%", "&", "{", "}", "<", ">", "*", "?",
-                        "/", " ", "$", "!", "'", '"', ":", "@", "+", "`", "|", "=",
+                        "#",
+                        "%",
+                        "&",
+                        "{",
+                        "}",
+                        "<",
+                        ">",
+                        "*",
+                        "?",
+                        "/",
+                        " ",
+                        "$",
+                        "!",
+                        "'",
+                        '"',
+                        ":",
+                        "@",
+                        "+",
+                        "`",
+                        "|",
+                        "=",
                     ]:
                         name = name.replace(s, "_")
                     name_list.append(name)
@@ -480,3 +488,4 @@ if __name__ == "__main__":
     for seq, name in zip(seq_list, name_list):
         pred = puffin_d.predict(seq)
         np.save(name, pred)
+        print(name + ".npy" + " Done!")

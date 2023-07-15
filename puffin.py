@@ -442,11 +442,10 @@ class Puffin(nn.Module):
         colors = [self.colordict[m] for m in motifnames_original]
         motif_activation = {}
         for i in inds:
-            if not motifnames_original[i] in ["Long Inr+", "Long Inr-"]:
-                motifactivation = postact_motif[0, i, 325:-325].detach().cpu().numpy().T
-                motif_activation[motifnames_original[i]] = motifactivation - np.min(
-                    motifactivation
-                )
+            motifactivation = postact_motif[0, i, 325:-325].detach().cpu().numpy().T
+            motif_activation[motifnames_original[i]] = motifactivation - np.min(
+                motifactivation
+            )
 
         dweight = self.deconv.weight.cpu().detach().numpy()
         effects_motifs = {}
@@ -486,30 +485,125 @@ class Puffin(nn.Module):
         lines = {}
         lines["Coordinate"] = list(range(len(seq_bp)))
         lines["Sequence"] = list(seq_bp)
+
         for i in range(20):
-            if not motifnames_original[i] in ["Long Inr+", "Long Inr-"]:
-                lines[motifnames_original[i] + " motif effect"] = effects_motifs[
-                    motifnames_original[i]
-                ]
-                lines[motifnames_original[i] + " motif activation"] = motif_activation[
-                    motifnames_original[i]
-                ]
+            lines[motifnames_original[i] + " motif activation"] = motif_activation[
+                motifnames_original[i]
+            ]
+
+        for i in range(20):
+
+            lines[motifnames_original[i] + " motif effect"] = effects_motifs[
+                motifnames_original[i]
+            ]
 
         lines["Sum of motif effect"] = effect_motif
         lines["Sum of initiator effect"] = effect_inr
         lines["Sum of trinucleotide effect"] = effect_sim
         lines["Sum of total effect"] = effect_final
-        lines["Sum of motif effect after activation"] = pred0[targeti, :]
+        lines["Prediction"] = pred0[targeti, :]
 
+        bp_score_list = []
         for motif in tss_contr[targeti]:
-            if not motif in ["Long Inr+", "Long Inr-"]:
-                lines[motif + " TSS contribution"] = tss_contr[targeti][motif]
+            bp_score_list.append(tss_contr[targeti][motif])
+            lines[
+                motif + " Basepair contribution score to transcription initiation"
+            ] = tss_contr[targeti][motif]
+
+        bp_score = np.sum(np.array(bp_score_list), axis=0)
+        lines["Basepair contribution score to transcription initiation"] = bp_score
 
         for motif in motif_contr[targeti]:
-            if not motif in ["Long Inr+", "Long Inr-"]:
-                lines[motif + " motif contribution"] = motif_contr[targeti][motif]
+            lines[
+                motif + " Basepair contribution score to motif activation"
+            ] = motif_contr[targeti][motif]
 
         df = pd.DataFrame.from_dict(lines, orient="index")
+
+        rear = [
+            "Coordinate",
+            "Sequence",
+            "Prediction",
+            "CREB+ motif activation",
+            "CREB- motif activation",
+            "ETS+ motif activation",
+            "ETS- motif activation",
+            "NFY+ motif activation",
+            "NFY- motif activation",
+            "NRF1+ motif activation",
+            "NRF1- motif activation",
+            "SP+ motif activation",
+            "SP- motif activation",
+            "TATA+ motif activation",
+            "TATA- motif activation",
+            "U1 snRNP+ motif activation",
+            "U1 snRNP- motif activation",
+            "YY1+ motif activation",
+            "YY1- motif activation",
+            "ZNF143+ motif activation",
+            "ZNF143- motif activation",
+            "CREB+ motif effect",
+            "CREB- motif effect",
+            "ETS+ motif effect",
+            "ETS- motif effect",
+            "NFY+ motif effect",
+            "NFY- motif effect",
+            "NRF1+ motif effect",
+            "NRF1- motif effect",
+            "SP+ motif effect",
+            "SP- motif effect",
+            "TATA+ motif effect",
+            "TATA- motif effect",
+            "U1 snRNP+ motif effect",
+            "U1 snRNP- motif effect",
+            "YY1+ motif effect",
+            "YY1- motif effect",
+            "ZNF143+ motif effect",
+            "ZNF143- motif effect",
+            "Sum of motif effect",
+            "Sum of initiator effect",
+            "Sum of trinucleotide effect",
+            "Sum of total effect",
+            "Basepair contribution score to transcription initiation",
+            "CREB+ Basepair contribution score to transcription initiation",
+            "CREB- Basepair contribution score to transcription initiation",
+            "ETS+ Basepair contribution score to transcription initiation",
+            "ETS- Basepair contribution score to transcription initiation",
+            "NFY+ Basepair contribution score to transcription initiation",
+            "NFY- Basepair contribution score to transcription initiation",
+            "NRF1+ Basepair contribution score to transcription initiation",
+            "NRF1- Basepair contribution score to transcription initiation",
+            "SP+ Basepair contribution score to transcription initiation",
+            "SP- Basepair contribution score to transcription initiation",
+            "TATA+ Basepair contribution score to transcription initiation",
+            "TATA- Basepair contribution score to transcription initiation",
+            "U1 snRNP+ Basepair contribution score to transcription initiation",
+            "U1 snRNP- Basepair contribution score to transcription initiation",
+            "YY1+ Basepair contribution score to transcription initiation",
+            "YY1- Basepair contribution score to transcription initiation",
+            "ZNF143+ Basepair contribution score to transcription initiation",
+            "ZNF143- Basepair contribution score to transcription initiation",
+            "CREB+ Basepair contribution score to motif activation",
+            "CREB- Basepair contribution score to motif activation",
+            "ETS+ Basepair contribution score to motif activation",
+            "ETS- Basepair contribution score to motif activation",
+            "NFY+ Basepair contribution score to motif activation",
+            "NFY- Basepair contribution score to motif activation",
+            "NRF1+ Basepair contribution score to motif activation",
+            "NRF1- Basepair contribution score to motif activation",
+            "SP+ Basepair contribution score to motif activation",
+            "SP- Basepair contribution score to motif activation",
+            "TATA+ Basepair contribution score to motif activation",
+            "TATA- Basepair contribution score to motif activation",
+            "U1 snRNP+ Basepair contribution score to motif activation",
+            "U1 snRNP- Basepair contribution score to motif activation",
+            "YY1+ Basepair contribution score to motif activation",
+            "YY1- Basepair contribution score to motif activation",
+            "ZNF143+ Basepair contribution score to motif activation",
+            "ZNF143- Basepair contribution score to motif activation",
+        ]
+
+        df = df.reindex(rear)
         return df
 
 
@@ -528,9 +622,9 @@ if __name__ == "__main__":
     Options:
     -h --help        Show this screen.
     --no_interpretation     leave only Puffin prediction
-    --target <target> experimental method targets (FANTOM_CAGE, ENCODE_CAGE, ENCODE_RAMPAGE, GRO_CAP, PRO_CAP) 
+    --targeti <targeti> experimental method targets (FANTOM_CAGE, ENCODE_CAGE, ENCODE_RAMPAGE, GRO_CAP, PRO_CAP) 
     --both_strands       generate predicion for the opposite strand
-    --cuda     use cuda to generate the prediction
+    --cuda   use cuda to generate the prediction 
     """
 
     if len(sys.argv) == 1:
@@ -538,8 +632,8 @@ if __name__ == "__main__":
 
     arguments = docopt(doc)
 
-    if arguments["--target"]:
-        targeti = arguments["--target"]
+    if arguments["--targeti"]:
+        targeti = arguments["--targeti"]
     else:
         targeti = "FANTOM_CAGE"
     print("making " + targeti + " prediction")
@@ -607,8 +701,23 @@ if __name__ == "__main__":
                     seq_list.append(seq_bp)
 
                     for s in [
-                        "#", "%", "&", "{", "}", "<", ">", "*", "?",
-                        "/", " ", "$", "!", "'", '"', ":", "@", "+", "`", "|", "=",
+                        "#",
+                        "%",
+                        "&",
+                        "{",
+                        "}",
+                        "<",
+                        ">",
+                        "*",
+                        "?",
+                        "/",
+                        " ",
+                        "$",
+                        "!",
+                        "'",
+                        '"',
+                        ":",
+                        "@",
                     ]:
                         name = name.replace(s, "_")
                     name_list.append(name)
@@ -660,5 +769,5 @@ if __name__ == "__main__":
         if arguments["--both_strands"]:
 
             df = net.interpret(seq_bp, targeti=targeti, reverse_strand=True)
-            df.to_csv(name + ".csv")
+            df.to_csv(name + "_rev_strand.csv")
             print("Reverse strand done!")
