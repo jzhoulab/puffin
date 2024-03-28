@@ -6,7 +6,7 @@ from torch_fftconv import fft_conv1d, FFTConv1d
 from torch.autograd import grad
 import selene_sdk
 from selene_sdk import sequences
-
+import re
 
 class Puffin(nn.Module):
     def __init__(self, use_cuda=False):
@@ -699,27 +699,8 @@ if __name__ == "__main__":
                     continue
                 else:
                     seq_list.append(seq_bp)
-
-                    for s in [
-                        "#",
-                        "%",
-                        "&",
-                        "{",
-                        "}",
-                        "<",
-                        ">",
-                        "*",
-                        "?",
-                        "/",
-                        " ",
-                        "$",
-                        "!",
-                        "'",
-                        '"',
-                        ":",
-                        "@",
-                    ]:
-                        name = name.replace(s, "_")
+                    char_replace = r"#%&{}<>*?/ $!'\";@+`|="
+                    name = re.sub(f"[{re.escape(char_replace)}]", "_", name)
                     name_list.append(name)
 
     if arguments["region"]:
