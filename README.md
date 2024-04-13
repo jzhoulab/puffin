@@ -6,7 +6,7 @@ Puffin can *predict basepair-resolution transcription initiation signals* using 
 For most use cases, we highly recommend our user-friendly web server that runs Puffin in your browser with interactive visualization [puffin.zhoulab.io](https://puffin.zhoulab.io) (or tss.zhoulab.io).
 
 <p align="center">
-  <img  height="300" src="https://media.discordapp.net/attachments/1013673476789387274/1125834770635563200/image_10.png">
+  <img  height="300" src="https://images.squarespace-cdn.com/content/v1/5d4799f8c0269900016a3c4b/3f2d92dc-896b-433d-ad74-d0a575ae9e8b/image+%2810%29.png">
 </p>
 
 
