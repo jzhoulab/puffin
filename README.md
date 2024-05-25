@@ -53,7 +53,7 @@ The command line interface (CLI) takes genome sequence as input and outputs tran
 
 ![My Image](puffin.png)
 
- 
+
 Puffin accepts sequence input in three forms: 
 
 A tsv file specifying genomic regions (the bed file should include at least 4 columns corresponding to ‘chr’, ‘start’, ‘end’, ‘strand’ respectively)
@@ -100,6 +100,10 @@ python puffin.py coord --targeti PRO_CAP chr7:5529775-5531425-
 --both_strands Default is outputting only prediction for the specified strand. Use this argument to show prediction for both strands.
 
 --cuda Default is using CPU. If specified, use cuda (requires GPU supporting CUDA).
+
+--genome_path Default is `./resources/hg38.fa`. Use this argument to change the path of used genome sequence.
+
+--output_path Default is `./`. Use this argument to change the path of output file.
 
 
 #### API Usage
@@ -156,6 +160,10 @@ python puffin_D.py coord chr7:5530600-
 ```
 #### Optional arguments:
 --use_cuda Default is using CPU. If specified, use cuda (requires GPU supporting CUDA).
+
+--genome_path Default is `./resources/hg38.fa`. Use this argument to change the path of used genome sequence.
+
+--output_path Default is `./`. Use this argument to change the path of output file.
 
 #### API Usage
 

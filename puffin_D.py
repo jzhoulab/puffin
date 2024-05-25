@@ -5,6 +5,7 @@ from torch import nn
 import torch.nn.functional as F
 import selene_sdk
 from selene_sdk import sequences
+import os
 
 
 class ConvBlock(nn.Module):
@@ -349,7 +350,7 @@ if __name__ == "__main__":
     from docopt import docopt
 
     doc = """
-    Puffin outputs transcription inititation signal prediciton for the input genome sequence.
+    Puffin outputs transcription inititation signal prediction for the input genome sequence.
     
     Usage:
     puffin_D_predict coord [options] <coordinate>
@@ -357,8 +358,10 @@ if __name__ == "__main__":
     puffin_D_predict region [options] <tsv_file>
     
     Options:
-    -h --help        Show this screen.
-    --use_cuda    Use CUDA to make the prediciton
+    -h --help              Show this screen.
+    --use_cuda             Use CUDA to make the prediction.
+    --genome_path=PATH     Path to the reference genome [default: ./resources/hg38.fa].
+    --output_path=PATH     Path to the output file [default: ./].
     """
 
     if len(sys.argv) == 1:
@@ -366,10 +369,10 @@ if __name__ == "__main__":
 
     arguments = docopt(doc)
 
-    genome_path = "./resources/hg38.fa"
+    genome_path = arguments["--genome_path"]
     genome = selene_sdk.sequences.Genome(genome_path)
 
-    if arguments["--use_cuda"]:
+    if arguments["--cuda"]:
         use_cuda = True
     else:
         use_cuda = False
@@ -485,7 +488,8 @@ if __name__ == "__main__":
                 )
                 name_list.append(name)
 
+    output_path = arguments["--output_path"]
     for seq, name in zip(seq_list, name_list):
         pred = puffin_d.predict(seq)
-        np.save(name, pred)
+        np.save(os.path.join(output_path, name), pred)
         print(name + ".npy" + " Done!")
