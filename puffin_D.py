@@ -372,7 +372,7 @@ if __name__ == "__main__":
     genome_path = arguments["--genome_path"]
     genome = selene_sdk.sequences.Genome(genome_path)
 
-    if arguments["--cuda"]:
+    if arguments["--use_cuda"]:
         use_cuda = True
     else:
         use_cuda = False
