@@ -397,9 +397,19 @@ if __name__ == "__main__":
         seq = genome.get_sequence_from_coords(
             chrm, start + offset, end + offset, strand
         )
-        seq_list.append(seq)
-        name = "puffin_D_" + chrm + "_" + str(start) + "_" + str(end) + "_" + strand_
-        name_list.append(name)
+
+        if len(seq) != 100000:
+            print(
+                "The input sequence lenght should be 100Kbp, current sequence length is "
+                + str(len(seq))
+                + " bps."
+                + " This may be due to one of the flanks of the coordinate being less than 50 Kbp."
+            )
+            quit()
+        else:
+            seq_list.append(seq)
+            name = "puffin_D_" + chrm + "_" + str(start) + "_" + str(end) + "_" + strand_
+            name_list.append(name)
 
     if arguments["sequence"]:
         fasta_file = open(arguments["<fasta_file_path>"], "r")
