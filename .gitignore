@@ -6,4 +6,4 @@ resources
 *xz
 __pycache__/
 wandb/
-#*.ckpt
+*.ckpt
