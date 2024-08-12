@@ -67,8 +67,8 @@ class Puffin(nn.Module):
 
         model_path = "./resources/puffin.pth"
 
-        self.state_dict2 = torch.load(model_path, map_location=torch.device("cpu"))
-        self.load_state_dict(self.state_dict2, strict=False)
+        state_dict = torch.load(model_path, map_location=torch.device("cpu"))
+        self.load_state_dict(state_dict, strict=False)
 
     def forward(self, x):
         y = torch.cat([self.conv(x), self.conv(x.flip([1, 2])).flip([2])], 1)
