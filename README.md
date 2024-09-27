@@ -15,6 +15,7 @@ For most use cases, we highly recommend our user-friendly web server that runs P
 - Predict the effect of mutations on transcription initiation and study its mechanisms.
 - Explore and design sequence edits that alter transcription initiation activity.
 
+
 ### Get Started 
 #### Installation
 For running Puffin locally, clone this repository with the following command.
@@ -45,6 +46,7 @@ cd ../
 The first time running the model, an index file will be created for the genome fasta file, which will take longer (a few minutes). Later runs will use the existing index files and will be fast.
 The model can work with other genomes too, but the genome path needs to be specified.
 
+Puffin_motifs_and_motif_effects directory contains motifs and motif effects learned by the Puffin model. (Note: Puffin "PWMs" have a different interpretation compared to regular motif PWMs. Puffin "PWMs" are taken directly from the weights of the first convolutional layer of the model, whereas regular motif PWMs are computed from nucleotide frequencies.)
 
 #### Command line interface (CLI) Usage
 
