@@ -7,6 +7,7 @@ from torch.autograd import grad
 import selene_sdk
 from selene_sdk import sequences
 import re
+import os
 
 class Puffin(nn.Module):
     def __init__(self, use_cuda=False):
@@ -620,11 +621,13 @@ if __name__ == "__main__":
     puffin_predict region [options] <tsv_file>
     
     Options:
-    -h --help        Show this screen.
-    --no_interpretation     leave only Puffin prediction
-    --targeti <targeti> experimental method targets (FANTOM_CAGE, ENCODE_CAGE, ENCODE_RAMPAGE, GRO_CAP, PRO_CAP) 
-    --both_strands       generate predicion for the opposite strand
-    --cuda   use cuda to generate the prediction 
+    -h --help              Show this screen.
+    --no_interpretation    leave only Puffin prediction
+    --targeti <targeti>    experimental method targets (FANTOM_CAGE, ENCODE_CAGE, ENCODE_RAMPAGE, GRO_CAP, PRO_CAP) 
+    --both_strands         generate predicion for the opposite strand
+    --cuda                 use cuda to generate the prediction 
+    --genome_path=PATH     Path to the reference genome [default: ./resources/hg38.fa].
+    --output_path=PATH     Path to the output file [default: ./].
     """
 
     if len(sys.argv) == 1:
@@ -647,8 +650,8 @@ if __name__ == "__main__":
     net = Puffin(use_cuda)
 
     ###load genome###
-    genome_path = "./resources/hg38.fa"
-    genome = selene_sdk.sequences.Genome(input_path=genome_path)
+    genome_path = arguments["--genome_path"]
+    genome = selene_sdk.sequences.Genome(genome_path)
 
     seq_list = []
     name_list = []
@@ -739,16 +742,17 @@ if __name__ == "__main__":
                 )
                 name_list.append(name)
 
+    output_path = arguments["--output_path"]
     for seq_bp, name in zip(seq_list, name_list):
         if arguments["--no_interpretation"]:
             df = net.predict(seq_bp)
         else:
             df = net.interpret(seq_bp, targeti=targeti)
-        df.to_csv(name + ".csv")
+        df.to_csv(os.path.join(output_path, name) + ".csv")
         print(name + " Done!")
 
         if arguments["--both_strands"]:
 
             df = net.interpret(seq_bp, targeti=targeti, reverse_strand=True)
-            df.to_csv(name + "_rev_strand.csv")
+            df.to_csv(os.path.join(output_path, name) + "_rev_strand.csv")
             print("Reverse strand done!")
