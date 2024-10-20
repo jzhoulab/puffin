@@ -7,6 +7,7 @@ from torch.autograd import grad
 import selene_sdk
 from selene_sdk import sequences
 import re
+from torchinfo import summary
 
 class Puffin(nn.Module):
     def __init__(self, use_cuda=False):
@@ -66,11 +67,12 @@ class Puffin(nn.Module):
 
         model_path = "./resources/puffin.pth"
 
-        self.state_dict = torch.load(model_path, map_location=torch.device("cpu"))
-        self.load_state_dict(self.state_dict, strict=False)
+        state_dict = torch.load(model_path, map_location=torch.device("cpu"))
+        self.load_state_dict(state_dict, strict=False)
 
     def forward(self, x):
         y = torch.cat([self.conv(x), self.conv(x.flip([1, 2])).flip([2])], 1)
+
         y_sim = torch.cat(
             [self.conv_sim(x), self.conv_sim(x.flip([1, 2])).flip([2])], 1
         )
@@ -669,7 +671,6 @@ if __name__ == "__main__":
         seq_bp = genome.get_sequence_from_coords(
             chrm, start + offset, end + offset, strand
         )
-
         if len(seq_bp) < 651:
             print(
                 "Minimum input sequence lenght should be > 651 bps, current sequence length is "
@@ -742,6 +743,26 @@ if __name__ == "__main__":
     for seq_bp, name in zip(seq_list, name_list):
         if arguments["--no_interpretation"]:
             df = net.predict(seq_bp)
+            seq = sequences.sequence_to_encoding(
+            seq_bp,
+            base_to_index={
+                "A": 0,
+                "a": 0,
+                "C": 1,
+                "c": 1,
+                "G": 2,
+                "g": 2,
+                "T": 3,
+                "t": 3,
+            }, bases_arr="ACGT")
+            summary(net, input_data=torch.FloatTensor(seq)[None, :, :].transpose(1, 2), col_names=[
+                "input_size",
+                "output_size",
+                "num_params",
+                "params_percent",
+                "kernel_size",
+                "mult_adds",
+                "trainable"])
         else:
             df = net.interpret(seq_bp, targeti=targeti)
         df.to_csv(name + ".csv")
