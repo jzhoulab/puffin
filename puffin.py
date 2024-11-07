@@ -686,10 +686,11 @@ if __name__ == "__main__":
         fasta_file = open(arguments["<fasta_file_path>"], "r")
         for line in fasta_file:
             if line[0] == ">":
-                name = line[1:-1]
-
+                name = line.strip()[1:]
+                
             else:
-                seq_bp = line
+                seq = line.strip()
+                
                 if len(seq_bp) < 651:
                     print(
                         "Minimum input sequence lenght should be > 651 bps, current sequence length is "
