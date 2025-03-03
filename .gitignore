@@ -1,0 +1,9 @@
+resources
+*bw
+*out
+*txt
+*csv
+*xz
+__pycache__/
+wandb/
+*.ckpt
